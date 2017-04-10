@@ -23,25 +23,41 @@ composer-update:
 	cd $(APP_PATH); \
 	php composer.phar update --no-dev;
 
-install-prod: composer-get composer-install phinx-init phinx-migrate
-install-test: composer-get composer-install phinx-init phinx-migrate phinx-seed
-install-dev: composer-get composer-install phinx-init phinx-migrate phinx-seed frontend-init frontend-build
+install-prod: composer-get composer-install phinx-migrate-prod
+install-test: composer-get composer-install phinx-migrate-test phinx-seed-test
+install-dev: composer-get composer-install phinx-migrate-dev phinx-seed-dev frontend-init frontend-build
 
 update-prod: composer-install phinx-migrate
 update-test: composer-install phinx-migrate phinx-seed
 update-dev: composer-install phinx-migrate phinx-seed frontend-init frontend-build
 
-phinx-migrate:
+phinx-migrate-dev:
 	cd $(APP_PATH); \
-	$(PHINX_PATH) migrate;
+	$(PHINX_PATH) migrate -e development
+	
+phinx-migrate-test:
+	cd $(APP_PATH); \
+	$(PHINX_PATH) migrate -e testing
+	
+phinx-migrate-prod:
+	cd $(APP_PATH); \
+	$(PHINX_PATH) migrate -e production
 
 phinx-init:
 	cd $(APP_PATH); \
 	$(PHINX_PATH) init;
 
-phinx-seed:
+phinx-seed-dev:
 	cd $(APP_PATH); \
-	$(PHINX_PATH) seed:run;
+	$(PHINX_PATH) seed:run -e development
+	
+phinx-seed-test:
+	cd $(APP_PATH); \
+	$(PHINX_PATH) seed:run -e testing
+		
+phinx-seed-prod:
+	cd $(APP_PATH); \
+	$(PHINX_PATH) seed:run -e production
 
 frontend-init:
 	cd $(FRONTEND_PATH); \
