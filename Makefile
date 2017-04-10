@@ -27,9 +27,9 @@ install-prod: composer-get composer-install phinx-migrate-prod
 install-test: composer-get composer-install phinx-migrate-test phinx-seed-test
 install-dev: composer-get composer-install phinx-migrate-dev phinx-seed-dev frontend-init frontend-build
 
-update-prod: composer-install phinx-migrate
-update-test: composer-install phinx-migrate phinx-seed
-update-dev: composer-install phinx-migrate phinx-seed frontend-init frontend-build
+update-prod: composer-install phinx-migrate-test
+update-test: composer-install phinx-migrate-test phinx-seed-test
+update-dev: composer-install phinx-migrate-dev phinx-seed-dev frontend-init frontend-build
 
 phinx-migrate-dev:
 	cd $(APP_PATH); \

@@ -10,7 +10,7 @@ Options -Indexes
 <IfModule mod_rewrite.c>
   Options +FollowSymLinks
   RewriteEngine On
-  RewriteBase /snmp-checker/
+  RewriteBase /wifi/
 
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-l
