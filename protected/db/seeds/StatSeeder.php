@@ -57,7 +57,11 @@ class StatSeeder extends AbstractSeed
             ];
         }
 
-        $this->insert('record', $arData);
+        $table = $this->table('record');
+
+        $table->truncate();
+
+        $table->insert($arData)->save();
 
     }
 }

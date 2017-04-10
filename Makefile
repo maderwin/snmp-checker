@@ -15,7 +15,7 @@ composer-get:
 	cd $(APP_PATH); \
 	wget $(COMPOSER_URL);
 
-composer-install: composer-get
+composer-install:
 	cd $(APP_PATH); \
 	php composer.phar install --no-dev;
 
@@ -23,9 +23,13 @@ composer-update:
 	cd $(APP_PATH); \
 	php composer.phar update --no-dev;
 
-install-prod: composer-install phinx-init phinx-migrate
-install-test: composer-install phinx-init phinx-migrate phinx-seed
-install-dev: composer-install phinx-init phinx-migrate phinx-seed frontend-init frontend-build
+install-prod: composer-get composer-install phinx-init phinx-migrate
+install-test: composer-get composer-install phinx-init phinx-migrate phinx-seed
+install-dev: composer-get composer-install phinx-init phinx-migrate phinx-seed frontend-init frontend-build
+
+update-prod: composer-install phinx-migrate
+update-test: composer-install phinx-migrate phinx-seed
+update-dev: composer-install phinx-migrate phinx-seed frontend-init frontend-build
 
 phinx-migrate:
 	cd $(APP_PATH); \
@@ -40,7 +44,7 @@ phinx-seed:
 	$(PHINX_PATH) seed:run;
 
 frontend-init:
-    cd $(FRONTEND_PATH); \
+	cd $(FRONTEND_PATH); \
 	npm install
 
 frontend-build:
