@@ -1,0 +1,18 @@
+{
+  "name": "maderwin/snmp-checker",
+  "description": "description_text",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "maderwin",
+      "email": "az@maderwin.com"
+    }
+  ],
+  "require": {
+    "silex/silex": "v2.0.4",
+    "robmorgan/phinx": "v0.8.0",
+    "fzaninotto/faker": "^1.6",
+    "j4mie/idiorm": "^1.5"
+  }
+}

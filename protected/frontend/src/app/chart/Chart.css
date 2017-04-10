@@ -1,0 +1,12 @@
+.Chart {
+  height: calc(100% - 71px);
+}
+.Chart .container,
+.Chart .container-fluid,
+.Chart .container > div,
+.Chart .container-fluid > div {
+  height: 100%;
+}
+.recharts-wrapper {
+  overflow:hidden;
+}
