@@ -23,7 +23,9 @@ composer-update:
 	cd $(APP_PATH); \
 	php composer.phar update --no-dev;
 
-install: composer-install
+install-prod: composer-install phinx-init phinx-migrate
+install-test: composer-install phinx-init phinx-migrate phinx-seed
+install-dev: composer-install phinx-init phinx-migrate phinx-seed frontend-init frontend-build
 
 phinx-migrate:
 	cd $(APP_PATH); \
@@ -38,7 +40,8 @@ phinx-seed:
 	$(PHINX_PATH) seed:run;
 
 frontend-init:
-
+    cd $(FRONTEND_PATH); \
+	npm install
 
 frontend-build:
 	cd $(FRONTEND_PATH); \
