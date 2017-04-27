@@ -24,7 +24,7 @@ composer-update:
 	php composer.phar update --no-dev;
 
 install-prod: composer-get composer-install phinx-migrate-prod
-install-test: composer-get composer-install phinx-migrate-test phinx-seed-test
+install-test: composer-get composer-install phinx-migrate-test
 install-dev: composer-get composer-install phinx-migrate-dev phinx-seed-dev frontend-init frontend-build
 
 update-prod: composer-install phinx-migrate-test
