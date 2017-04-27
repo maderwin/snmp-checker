@@ -33,16 +33,31 @@ export class Chart extends React.Component {
   componentDidMount() {
     axios.get(this.props.rootUrl + '/stat/mean.json')
       .then(res => {
-        const mean = res.data.reduce((mean, current) => {
-          if (!mean[current.hour]) {
-            mean[current.hour] = {
-              name: current.hour + ':00'
-            };
-          }
-          mean[current.hour][current.ip] = +current.users;
+        const ipList = [];
 
-          return mean;
-        }, []);
+        const mean = res.data
+          .reduce((mean, current) => {
+            if (!mean[current.hour]) {
+              mean[current.hour] = {
+                name: current.hour + ':00'
+              };
+            }
+            if (ipList.indexOf(current.ip) === -1) {
+              ipList.push(current.ip);
+            }
+            mean[current.hour][current.ip] = +current.users;
+
+            return mean;
+          }, [])
+          .map((currentHour) => {
+            ipList.foreach((currentIp) => {
+              if (!currentHour[currentIp]) {
+                currentHour[currentIp] = 0;
+              }
+            });
+            return currentHour;
+          });
+
 
         const points = res.data.map(current => current.ip)
           .filter((val, i, self) => self.indexOf(val) === i)
@@ -57,8 +72,8 @@ export class Chart extends React.Component {
   }
 
   getChartColorByIp(ip) {
-    for(let i = 0; i< this.state.points.length; i++){
-      if(this.state.points[i].ip === ip){
+    for (let i = 0; i < this.state.points.length; i++) {
+      if (this.state.points[i].ip === ip) {
         return this.getChartColor(i / this.state.points.length);
       }
     }
@@ -68,7 +83,7 @@ export class Chart extends React.Component {
   switchPoint(ip) {
     this.setState(state => {
       state.points.map(point => {
-        if(point.ip == ip){
+        if (point.ip == ip) {
           point.active = !point.active;
         }
         return point;
@@ -86,7 +101,7 @@ export class Chart extends React.Component {
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={this.state.mean}>
                 {this.state.points.filter(current => current.active).map(point =>
-                  <Line type="monotone" key={point.ip} dataKey={point.ip} stroke={this.getChartColorByIp(point.ip)} />
+                  <Line type="monotone" key={point.ip} dataKey={point.ip} stroke={this.getChartColorByIp(point.ip)}/>
                 )}
                 <XAxis dataKey="name"/>
                 <YAxis domain={['auto', 'auto']}/>
