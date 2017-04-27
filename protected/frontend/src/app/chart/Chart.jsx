@@ -50,7 +50,7 @@ export class Chart extends React.Component {
             return mean;
           }, [])
           .map((currentHour) => {
-            ipList.foreach((currentIp) => {
+            ipList.forEach((currentIp) => {
               if (!currentHour[currentIp]) {
                 currentHour[currentIp] = 0;
               }
