@@ -13,6 +13,7 @@
     "silex/silex": "v2.0.4",
     "robmorgan/phinx": "v0.8.0",
     "fzaninotto/faker": "^1.6",
-    "j4mie/idiorm": "^1.5"
+    "j4mie/idiorm": "^1.5",
+    "ducks-project/spl-types": "1.0.0"
   }
 }

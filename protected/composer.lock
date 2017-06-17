@@ -4,8 +4,59 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae1db7e22b7650eeb2d09466c9f5c485",
+    "content-hash": "312f00dd9cba923bbe17e4ba67a9644e",
     "packages": [
+        {
+            "name": "ducks-project/spl-types",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ducks-project/spl-types.git",
+                "reference": "aa251d191ccdde1d8f74eeeb896bda67b2e9c178"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ducks-project/spl-types/zipball/aa251d191ccdde1d8f74eeeb896bda67b2e9c178",
+                "reference": "aa251d191ccdde1d8f74eeeb896bda67b2e9c178",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ducks\\Component\\": "src/Ducks/Component/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adrien Loyant",
+                    "email": "donald_duck@team-df.org",
+                    "homepage": "http://adrien.loyant.net",
+                    "role": "Owner"
+                }
+            ],
+            "description": "This extension aims at helping people making PHP a stronger typed language and can be a good alternative to scalar type hinting. It provides different typehandling classes as such as integer, float, bool, enum and string",
+            "homepage": "https://github.com/ducks-project/spl-types/",
+            "keywords": [
+                "SplBool",
+                "SplFloat",
+                "SplInt",
+                "SplString",
+                "SplType",
+                "SplTypes",
+                "enum",
+                "enumerator",
+                "poo",
+                "splenum"
+            ],
+            "time": "2015-11-25T16:51:13+00:00"
+        },
         {
             "name": "fzaninotto/faker",
             "version": "v1.6.0",

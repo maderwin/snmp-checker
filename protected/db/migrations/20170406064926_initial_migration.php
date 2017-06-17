@@ -27,12 +27,16 @@ class InitialMigration extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('stat');
-        $table
-            ->addColumn('ip', 'string', ['limit' => 30, 'null' => false])
-            ->addColumn('date', 'datetime', ['null' => false])
-            ->addColumn('ssid', 'string', ['limit' => 30, 'null'=>false])
-            ->addColumn('count', 'integer', ['null' => false])
-            ->save();
+        $table = $this->table('Statistick');
+        try {
+            $table
+                ->addColumn('IP', 'string', ['limit' => 30, 'null' => false])
+                ->addColumn('DATE', 'datetime', ['null' => false])
+                ->addColumn('SSID', 'string', ['limit' => 30, 'null'=>false])
+                ->addColumn('COUNT', 'integer', ['null' => false])
+                ->save();
+        }catch (PDOException $e){
+            echo 'Exception: ' . $e->getMessage();
+        }
     }
 }

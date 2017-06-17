@@ -1,3 +1,22 @@
 #root {
   height: 100%;
 }
+html, body {
+  height: 100%;
+}
+.App {
+  height: 100%;
+}
+.chartContainer .container,
+.chartContainer .container-fluid,
+.chartContainer .container > div,
+.chartContainer .container-fluid > div {
+  height: 100%;
+}
+.recharts-wrapper {
+  overflow:hidden;
+}
+.chartContainer {
+  height: calc(100% - 42px) !important;
+  min-height: calc(100% - 42px) !important;
+}

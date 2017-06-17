@@ -8,9 +8,9 @@ environments:
     production:
         adapter: mysql
         host: localhost
-        name: snmp_checker
-        user: snmp_checker
-        pass: 'snmp_checker'
+        name: ap-stat
+        user: ap-stat
+        pass: 'vUFemV7X4AKPSPm6'
         port: 3306
         charset: utf8
 
