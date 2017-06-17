@@ -8,7 +8,7 @@ import IpList from './IpList';
 
 import 'semantic-ui-css/semantic.min.css';
 
-const rootUrl = 'http://snmp-checker.pluto/snmp-checker';
+const rootUrl = '.';
 
 export default class App extends Component {
   constructor(){
