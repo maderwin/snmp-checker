@@ -24,7 +24,6 @@ export default class Chart extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log(props);
   }
 
   getChartColor(x) {
@@ -43,8 +42,6 @@ export default class Chart extends React.Component {
   }
 
   render() {
-    console.log(this.props);
-
     if(!this.props.query){
       return null;
     }
@@ -88,8 +85,6 @@ export default class Chart extends React.Component {
     if(this.props.keys.length){
       keys = keys.filter(key => this.props.keys.indexOf(key) > -1);
     }
-
-    console.log(keys);
 
     return (
       <ResponsiveContainer width="100%" height="100%">

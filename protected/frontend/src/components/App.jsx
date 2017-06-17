@@ -168,7 +168,6 @@ export default class App extends Component {
 
     Axios.get(query)
       .then((response)=>{
-        console.log(response);
         this.setState((state)=>{
           state.data.result = response.data;
           state.data.query = query;
@@ -183,7 +182,6 @@ export default class App extends Component {
           state.data.error = error;
           return state;
         });
-        console.log(error);
       })
   }
 

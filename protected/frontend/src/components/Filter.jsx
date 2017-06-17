@@ -35,7 +35,6 @@ export default class Filter extends Component {
     this.props.onChange(this.appState);
   }
   onChangeKeys(data){
-    console.log(data);
     this.appState.filter.keys = data.value;
     this.props.onChange(this.appState);
   }
