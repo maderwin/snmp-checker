@@ -17,7 +17,7 @@ export default class App extends Component {
     this.state = {
       view: {
         sidebar: false,
-        iplist: true,
+        iplist: false,
         stacked: false,
         loading: 0
       },
