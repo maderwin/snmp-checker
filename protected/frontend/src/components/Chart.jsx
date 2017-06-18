@@ -62,7 +62,7 @@ export default class Chart extends React.Component {
 
       return data && keys && data.length && keys.length ? (
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data}>
+          <BarChart data={data} barGap={0} barCategoryGap={1}>
             {keys.map(key =>
               <Bar
                 key={key}

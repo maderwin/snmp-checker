@@ -128,6 +128,9 @@ export default class App extends Component {
   }
 
   deleteIp(ip){
+    this.setState({
+      iplist_del: this.state.iplist_del.concat([ip])
+    });
     Axios.get(rootUrl + '/ip/delete/' + ip)
       .then(response => {
       this.setState({
