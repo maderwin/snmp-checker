@@ -63,6 +63,14 @@ class StatModel
         $arResult[$strGroupField] = array_values($arResult[$strGroupField]);
         $arResult['keys']= array_keys($arResult['keys']);
 
+        foreach($arResult[$strGroupField] as $k=> $arRecord){
+            foreach($arResult['keys'] as $key){
+                if(!isset($arRecord[$key])){
+                    $arRecord[$key] = 0;
+                }
+            }
+            $arResult[$strGroupField][$k] = $arRecord;
+        }
         return $arResult;
     }
 
