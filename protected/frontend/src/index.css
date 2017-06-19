@@ -20,3 +20,7 @@ html, body {
   height: calc(100% - 42px) !important;
   min-height: calc(100% - 42px) !important;
 }
+
+.inputhack .react-datepicker__input-container{
+  width: 100%;
+}

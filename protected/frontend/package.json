@@ -4,14 +4,12 @@
   "private": true,
   "dependencies": {
     "axios": "^0.16.1",
-    "bootstrap": "^3.3.7",
+    "md5": "^2.2.1",
     "react": "^15.5.3",
-    "react-bootstrap": "^0.30.8",
     "react-datepicker": "^0.47.0",
     "react-dom": "^15.5.3",
-    "react-redux": "^5.0.5",
+    "react-swipeable": "^4.0.1",
     "recharts": "^0.22.0",
-    "redux": "^1.0.1",
     "semantic-ui-css": "^2.2.10",
     "semantic-ui-react": "^0.68.5"
   },

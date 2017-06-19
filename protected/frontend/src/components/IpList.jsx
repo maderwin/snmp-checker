@@ -17,8 +17,11 @@ export default class IpList extends Component {
   }
 
   addIp(ip){
-    this.setState({ip: ''});
-    this.props.onAdd(ip);
+    if(!!this.state.ip) {
+      this.setState({ip: ''});
+      this.props.onAdd(ip);
+    }
+
   }
 
   deleteIp(ip){
@@ -30,7 +33,7 @@ export default class IpList extends Component {
     return (
       <Sidebar
         as={Menu}
-        animation='uncover'
+        animation='scale down'
         width='wide'
         direction='right'
         visible={this.props.visible}
@@ -62,10 +65,20 @@ export default class IpList extends Component {
             })
         }
         <Menu.Item>
-          <Input placeholder='xxx.xxx.xxx.xxx' value={this.state.ip} onChange={(e,data) => this.changeIp(data.value)} action>
-            <input />
-            <Button icon="plus" onClick={()=>this.addIp(this.state.ip)}/>
-          </Input>
+          <Input
+            placeholder='xxx.xxx.xxx.xxx'
+            value={this.state.ip}
+            transparent
+            onChange={(e,data) => this.changeIp(data.value)}
+            onKeyPress={(e) => {if(e.key === 'Enter') this.addIp(this.state.ip)}}
+            icon={
+              <Icon
+                name='plus'
+                link
+                onClick={()=>this.addIp(this.state.ip)}
+              />
+            }
+          />
         </Menu.Item>
 
       </Sidebar>

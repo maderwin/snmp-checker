@@ -79,4 +79,5 @@ frontend-fix-static:
 
 fix-exec:
 	cd $(FETCH_PATH); \
-	chmod +x isp1.sh
+	chmod 0755 isp1.sh
+	chmod 0666 ip

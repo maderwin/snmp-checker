@@ -22,12 +22,16 @@ export default class DatePicker extends Component {
   render() {
 
     return (
-      <ReactDatePicker
-        dateFormat="YYYY-MM-DD"
-        selected={this.state.date}
-        onChange={this.handleChange}
-        isClearable={true}
-      />
+      <div className={"inputhack"} style={{flex: '1 0 auto'}}>
+        <ReactDatePicker
+          customInput={<input style={{width: '100%'}} />}
+          dateFormat="YYYY-MM-DD"
+          placeholderText={this.props.placeholder}
+          selected={this.state.date}
+          onChange={this.handleChange}
+          isClearable={true}
+        />
+      </div>
     );
   }
 }

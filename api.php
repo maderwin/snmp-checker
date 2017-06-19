@@ -3,10 +3,15 @@ require_once "protected/core.php";
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 Request::enableHttpMethodParameterOverride();
 
 $app = new Application();
+
+$app->after(function (Request $request, Response $response) {
+    $response->headers->set('Access-Control-Allow-Origin', '*');
+});
 
 $app->get('/', function (Application $app, Request $request) {
     if ($method = $request->get('api', false)) {

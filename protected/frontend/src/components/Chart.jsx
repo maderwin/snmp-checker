@@ -10,15 +10,8 @@ import {
   CartesianGrid,
   Tooltip
 } from 'recharts';
-// import {
-//   Grid,
-//   Col,
-//   ListGroup,
-//   ListGroupItem,
-//   Checkbox
-// } from 'react-bootstrap';
 import React from 'react';
-// import axios from 'axios';
+import md5 from 'md5';
 
 export default class Chart extends React.Component {
 
@@ -27,18 +20,19 @@ export default class Chart extends React.Component {
   }
 
   getChartColor(x) {
-    return "hsl(" + x * 360 + ", 100%, 30%)";
+    return "hsl(" + x  + ", 100%, 40%)";
   }
 
   getChartColorByKey(key) {
-    key = '' + key;
+    let hashkey = md5(key);
     let hash = 0;
-    if (key.length === 0) return this.getChartColor(0);
-    for (let i = 0; i < key.length; i++) {
-      let char = key.charCodeAt(i);
-      hash = (hash+char) % 256;
+    if (hashkey.length === 0) return this.getChartColor(0);
+    for (let i = 0; i < hashkey.length; i++) {
+      let chr = hashkey.charCodeAt(i);
+      hash  = ((hash << 5) - hash) + chr;
+      hash |= 0; // Convert to 32bit integer
     }
-    return this.getChartColor(hash / 256);
+    return this.getChartColor(hash);
   }
 
   render() {
@@ -71,7 +65,7 @@ export default class Chart extends React.Component {
                 fill={this.getChartColorByKey(key)} />
             )}
             <XAxis dataKey={this.props.period}/>
-            <YAxis domain={['auto', 'auto']}/>
+            <YAxis domain={[0, 'dataMax']} scale={'linear'}/>
             <CartesianGrid strokeDasharray="3 3"/>
             <Tooltip />
           </BarChart>
@@ -91,7 +85,7 @@ export default class Chart extends React.Component {
         <LineChart data={data}>
           {keys.map(key => <Line type="monotone" key={key} dataKey={key} stroke={this.getChartColorByKey(key)}/>)}
           <XAxis dataKey="date"/>
-          <YAxis domain={['auto', 'auto']}/>
+          <YAxis domain={[0, 'dataMax']} scale={'linear'}/>
           <CartesianGrid strokeDasharray="3 3"/>
           <Tooltip />
         </LineChart>

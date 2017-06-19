@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
-import { Sidebar, Segment, Menu, Icon} from 'semantic-ui-react'
-import QueryString from 'query-string';
+import { Dimmer, Loader, Sidebar, Segment, Menu, Icon} from 'semantic-ui-react'
+import Swipeable from 'react-swipeable'
 import Filter from './Filter';
 import Chart from './Chart';
 import IpList from './IpList';
@@ -79,11 +79,33 @@ export default class App extends Component {
   }
   toggleIpList() {
     this.setState((state) => {
-      state.view.iplist = !state.view.iplist
+      state.view.iplist = !state.view.iplist;
       state.view.sidebar = false;
     });
 
     this.fetchIpList();
+  }
+
+  swipeLeft() {
+    if(!this.state.view.sidebar){
+      if(!this.state.view.iplist){
+        this.setState((state) => {
+          state.view.iplist = true;
+          state.view.sidebar = false;
+        });
+      }
+    }
+  }
+
+  swipeRight() {
+    if(!this.state.view.iplist){
+      if(!this.state.view.sidebar){
+        this.setState((state) => {
+          state.view.sidebar = true;
+          state.view.iplist = false;
+        });
+      }
+    }
   }
 
   buildQuery(){
@@ -194,8 +216,12 @@ export default class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <Menu className='top attached'>
+      <Swipeable
+        onSwipingLeft={() => this.swipeLeft()}
+        onSwipingRight={() => this.swipeRight()}
+        trackMouse={true}
+        className="App">
+        <Menu className='top attached' inverted color="blue">
           <Menu.Item
             active={this.state.view.sidebar}
             onClick={() => this.toggleSidebar()}>
@@ -224,7 +250,10 @@ export default class App extends Component {
             onDelete={ip => this.deleteIp(ip)}
           />
 
-          <Sidebar.Pusher className="chartContainer" dimmed={!!this.state.view.loading}>
+          <Sidebar.Pusher className="chartContainer" blurring dimmed={!!this.state.view.loading}>
+            <Dimmer active={!!this.state.view.loading} inverted>
+              <Loader>Loading</Loader>
+            </Dimmer>
             <Chart
               grouped={this.state.group.enabled}
               stacked={this.state.view.stacked}
@@ -237,7 +266,7 @@ export default class App extends Component {
             />
           </Sidebar.Pusher>
         </Sidebar.Pushable>
-      </div>
+      </Swipeable>
     );
   }
 }

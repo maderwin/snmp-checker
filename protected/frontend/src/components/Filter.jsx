@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Sidebar, Menu, Icon, Input, Dropdown, Checkbox} from 'semantic-ui-react'
 import DatePicker from './DatePicker';
+import moment from 'moment';
 
 import 'semantic-ui-css/semantic.min.css';
 
@@ -43,28 +44,31 @@ export default class Filter extends Component {
     return (
       <Sidebar
         as={Menu}
-        animation='uncover'
+        animation='scale down'
         width='wide'
         direction='left'
         visible={this.props.state.view.sidebar}
         vertical
       >
         <Menu.Item>
-          <Input transparent fluid type='text' >
+          <Input transparent fluid type='text'>
             <Icon name="calendar"/>
             <Icon name="angle right"/>
             <DatePicker
               value={this.props.state.filter.start}
+              placeholder={moment().format('YYYY-MM-DD')}
               onChange={(date)=>this.onStartDateChanged(date)}
             />
           </Input>
         </Menu.Item>
         <Menu.Item>
-          <Input transparent fluid type='text' >
+          <Input transparent fluid type='text'>
             <Icon name="calendar"/>
             <Icon name="angle left"/>
             <DatePicker
+              style={{flex: '1 0 auto'}}
               value={this.props.state.filter.end}
+              placeholder={moment().subtract(1, 'week').format('YYYY-MM-DD')}
               onChange={(date)=>this.onEndDateChanged(date)}
             />
           </Input>
