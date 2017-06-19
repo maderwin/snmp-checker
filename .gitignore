@@ -3,6 +3,9 @@ protected/composer.phar
 protected/vendor/
 protected/environment
 protected/frontend/node-modules
+protected/fetch/ip.txt
+protected/fetch/out.csv
+protected/fetch/log.txt
 .idea/
 *.iws
 /out/
