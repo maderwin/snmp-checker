@@ -27,7 +27,7 @@ class InitialMigration extends AbstractMigration
      */
     public function change()
     {
-        if($this->hasTable('Statistick')){
+        if(!$this->hasTable('Statistick')){
             $table = $this->table('Statistick');
             $table
                 ->addColumn('IP', 'string', ['limit' => 30, 'null' => false])
