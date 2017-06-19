@@ -3,17 +3,17 @@
 D=`date +%y-%m-%d/%H:%M:%S`
 
 # проходим по файлу с именем ip, где хранятся адреса
-cat ./ip | while read myline
+cat /var/www/wifi/protected/fetch/ip | while read myline
 do
     # узнаем уникальные названия ssid для каждого ip
-    ssid_name=`snmpwalk -c public -v1 $myline 1.3.6.1.4.1.171.11.37.4.4.5.2|grep SSID|cut -d " " -f4,5|uniq|awk '!x[$0]++'|sed 's/"//g'>name`
+    ssid_name=`snmpwalk -c public -v1 $myline 1.3.6.1.4.1.171.11.37.4.4.5.2|grep SSID|cut -d " " -f4,5|uniq|awk '!x[$0]++'|sed 's/"//g'>/var/www/wifi/protected/fetch/name`
 
     # проходим по файлу name, где хранятся названия ssid
-    cat ./name| while read line
+    cat /var/www/wifi/protected/fetch/name| while read line
     do
 	# берем для каждого ip его ssid и подсчитываем кол-во для каждого ssid
         count=`snmpwalk -c public -v1 $myline 1.3.6.1.4.1.171.11.37.4.4.5.2|grep "$line" |wc -l`
-	echo $myline, $D, $line, $count >> out
+	echo $myline, $D, $line, $count >> /var/www/wifi/protected/fetch/out
     done
 done
 
@@ -30,4 +30,4 @@ sql1="LOAD DATA LOCAL INFILE '/var/www/wifi/protected/fetch/out' replace  INTO T
 mysql -h "$lh" -u"$user" -p"$pass" "$db" -e "$sql1" --local-infile
 
 # удаляем файл out
-rm ./out
+rm /var/www/wifi/protected/fetch/out
