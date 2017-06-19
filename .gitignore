@@ -5,7 +5,7 @@ protected/environment
 protected/frontend/node-modules
 protected/fetch/ip.txt
 protected/fetch/out.csv
-protected/fetch/log.txt
+protected/fetch/isp1.log
 .idea/
 *.iws
 /out/
