@@ -43,7 +43,7 @@ class StatModel
 
         foreach ($res as $arRecord) {
             $date = $arRecord['record_date'];
-            $date = DateTime::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d H:m:00');
+            $date = static::roundDate($date);
 
             if(!isset($arResult['ip'][$date])) {
                 $arResult[$strGroupField][$date] = [];
@@ -154,5 +154,13 @@ class StatModel
         $arResult['keys'] = array_keys($arResult['keys']);
 
         return $arResult;
+    }
+
+    protected static function roundDate($t){
+        $precision = 15 * 60;
+        $date = \DateTime::createFromFormat('Y-m-d H:i:s', $t, new \DateTimezone('UTC'));
+        $date2 = \DateTime::createFromFormat('U', round($date->getTimestamp() / $precision) * $precision, new \DateTimezone('UTC'));
+
+        return $date2->format('Y-m-d H:i:s');
     }
 }
