@@ -68,7 +68,7 @@ class StatModel
                 if(!isset($arRecord[$key])){
                     $arRecord[$key] = 0;
                 }else{
-                    $arRecord[$key] = array_sum($arRecord[$key]) / sizeof($arRecord[$key]);
+                    $arRecord[$key] = array_sum($arRecord[$key]);
                 }
             }
             $arResult[$strGroupField][$k] = $arRecord;
