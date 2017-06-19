@@ -18,7 +18,7 @@ class StatModel
             ->select('users', 'users')
             ->select('record_date', 'record_date')
             ->selectExpr("CONCAT(ip, ':', ssid)", 'both')
-            ->orderByDesc('record_date');
+            ->orderByAsc('record_date');
 
         if($startDate){
             $table->whereGte('record_date', $startDate->format('Y-m-d H:i:s'));
