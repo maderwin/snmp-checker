@@ -87,7 +87,7 @@ export default class App extends Component {
   }
 
   buildQuery(){
-    let query = rootUrl + '/?api=stat';
+    let query = rootUrl + '/api.php?api=stat';
     if(this.state.group.enabled){
       query += '&period=' + this.state.group.period.selected;
     }else {
@@ -107,7 +107,7 @@ export default class App extends Component {
   }
 
   fetchIpList(){
-    Axios.get(rootUrl + '/?api=ip')
+    Axios.get(rootUrl + '/api.php?api=ip')
       .then(response => {
         this.setState({
           iplist: response.data,
@@ -127,7 +127,7 @@ export default class App extends Component {
     this.setState({
       iplist_del: this.state.iplist_del.concat([ip])
     });
-    Axios.get(rootUrl + '/?api=ip&action=delete&ip=' + ip)
+    Axios.get(rootUrl + '/api.php?api=ip&action=delete&ip=' + ip)
       .then(response => {
       this.setState({
         iplist: response.data,
@@ -145,7 +145,7 @@ export default class App extends Component {
     this.setState({
       iplist_add: this.state.iplist_add.concat([ip])
     });
-    Axios.get(rootUrl + '/?api=ip&action=add&ip=' + ip)
+    Axios.get(rootUrl + '/api.php?api=ip&action=add&ip=' + ip)
       .then(response => {
         this.setState({
           iplist: response.data,
