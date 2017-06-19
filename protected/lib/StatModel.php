@@ -130,7 +130,8 @@ class StatModel
                 $groupPeriodValue .= ':00';
             }
             if($strGroupPeriod == 'weekday'){
-                $groupPeriodValue = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][$groupPeriodValue];
+                $arWeekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+                $groupPeriodValue = $arWeekdays[$groupPeriodValue];
             }
             if(!isset($arResult['sum'][$groupPeriodValue])){
                 $arResult['sum'][$groupPeriodValue] = [
