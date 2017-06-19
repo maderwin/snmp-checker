@@ -8,6 +8,10 @@ Request::enableHttpMethodParameterOverride();
 
 $app = new Application();
 
+$app->get('/', function (Application $app) {
+    return $app->redirect('./index.html');
+});
+
 $app->get('/latest/{field}.json', function (Application $app, Request $request, $field) {
     $startDate = $request->get('start', (new DateTime())->sub(new DateInterval('P1W'))->format('Y-m-d 00:00:00'));
     $endDate = $request->get('end', (new DateTime())->format('Y-m-d 23:59:59'));

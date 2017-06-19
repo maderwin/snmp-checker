@@ -20,7 +20,7 @@ Options -Indexes
 #</IfModule>
 
 <IfModule mod_dir.c>
-  DirectoryIndex index.html
+  DirectoryIndex api.php
   FallbackResource /wifi/api.php
 </IfModule>
 
