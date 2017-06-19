@@ -29,14 +29,10 @@ class IndexMigration extends AbstractMigration
     {
         $table = $this->table('Statistick');
 
-        try {
-            $table
-                ->addIndex(['IP'])
-                ->addIndex(['SSID'])
-                ->addIndex(['DATE'])
-                ->save();
-        }catch (PDOException $e){
-            echo 'Exception: ' . $e->getMessage();
-        }
+        $table
+            ->addIndex(['IP'])
+            ->addIndex(['SSID'])
+            ->addIndex(['DATE'])
+            ->save();
     }
 }

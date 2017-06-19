@@ -13,7 +13,7 @@ do
     do
 	# берем для каждого ip его ssid и подсчитываем кол-во для каждого ssid
         count=`snmpwalk -c public -v1 $myline 1.3.6.1.4.1.171.11.37.4.4.5.2|grep "$line" |wc -l`
-	echo $myline, $D, $line, $count >> out
+	echo $myline, $D, $line, $count >> out.csv
     done
 done
 
@@ -24,10 +24,10 @@ pass="vUFemV7X4AKPSPm6"
 lh="localhost"
 
 # загружаем в БД данные, хранящиеся в вайле out
-sql1="LOAD DATA LOCAL INFILE '/home/titarev/out' replace  INTO TABLE Statistick fields terminated by ','"
+sql1="LOAD DATA LOCAL INFILE '/var/www/wifi/protected/fetch/out.csv' replace  INTO TABLE Statistick fields terminated by ','"
 
 # соединение с БД
 mysql -h "$lh" -u"$user" -p"$pass" "$db" -e "$sql1" --local-infile
 
 # удаляем файл out
-#rm out
+rm ./out.csv
