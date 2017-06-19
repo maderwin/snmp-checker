@@ -21,7 +21,6 @@ Options -Indexes
 
 <IfModule mod_dir.c>
   DirectoryIndex index.html
+  FallbackResource /wifi/api.php
 </IfModule>
-
-FallbackResource /wifi/api.php
 
