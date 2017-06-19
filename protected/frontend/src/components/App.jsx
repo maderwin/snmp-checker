@@ -87,24 +87,20 @@ export default class App extends Component {
   }
 
   swipeLeft() {
-    if(!this.state.view.sidebar){
-      if(!this.state.view.iplist){
-        this.setState((state) => {
-          state.view.iplist = true;
-          state.view.sidebar = false;
-        });
-      }
+    if(!this.state.view.iplist) {
+      this.setState((state) => {
+        state.view.sidebar = false;
+        state.view.iplist = false;
+      });
     }
   }
 
   swipeRight() {
-    if(!this.state.view.iplist){
-      if(!this.state.view.sidebar){
-        this.setState((state) => {
-          state.view.sidebar = true;
-          state.view.iplist = false;
-        });
-      }
+    if(!this.state.view.iplist) {
+      this.setState((state) => {
+        state.view.sidebar = true;
+        state.view.iplist = false;
+      });
     }
   }
 
@@ -219,7 +215,6 @@ export default class App extends Component {
       <Swipeable
         onSwipingLeft={() => this.swipeLeft()}
         onSwipingRight={() => this.swipeRight()}
-        trackMouse={true}
         className="App">
         <Menu className='top attached' inverted color="blue">
           <Menu.Item
