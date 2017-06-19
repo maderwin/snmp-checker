@@ -82,36 +82,32 @@ export default class App extends Component {
       state.view.iplist = !state.view.iplist
       state.view.sidebar = false;
     });
+
+    this.fetchIpList();
   }
 
   buildQuery(){
-    let query = rootUrl;
+    let query = rootUrl + '/?api=stat';
     if(this.state.group.enabled){
-       query += '/' + this.state.group.period.selected;
-       query += '/' + this.state.group.field.selected;
-       query += '.json';
-    }else{
-      query += '/latest';
-      query += '/' + this.state.group.field.selected;
-      query += '.json';
+      query += '&period=' + this.state.group.period.selected;
+    }else {
+      query += '&period=latest';
+    }
+    query += '&field=' + this.state.group.field.selected;
+
+    if(this.state.filter.start){
+      query += '&start=' + this.state.filter.start.format('YYYY-MM-DD');
     }
 
-    if(this.state.filter.start || this.state.filter.end){
-      let params = {};
-      if(this.state.filter.start){
-        params.start = this.state.filter.start.format('YYYY-MM-DD');
-      }
-      if(this.state.filter.end){
-        params.end = this.state.filter.end.format('YYYY-MM-DD');
-      }
-      query += '?' + QueryString.stringify(params);
+    if(this.state.filter.end){
+      query += '&end=' + this.state.filter.end.format('YYYY-MM-DD');
     }
 
     return query;
   }
 
   fetchIpList(){
-    Axios.get(rootUrl + '/ip.json')
+    Axios.get(rootUrl + '/?api=ip')
       .then(response => {
         this.setState({
           iplist: response.data,
@@ -131,7 +127,7 @@ export default class App extends Component {
     this.setState({
       iplist_del: this.state.iplist_del.concat([ip])
     });
-    Axios.get(rootUrl + '/ip/delete/' + ip)
+    Axios.get(rootUrl + '/?api=ip&action=delete&ip=' + ip)
       .then(response => {
       this.setState({
         iplist: response.data,
@@ -149,7 +145,7 @@ export default class App extends Component {
     this.setState({
       iplist_add: this.state.iplist_add.concat([ip])
     });
-    Axios.get(rootUrl + '/ip/add/' + ip)
+    Axios.get(rootUrl + '/?api=ip&action=add&ip=' + ip)
       .then(response => {
         this.setState({
           iplist: response.data,
