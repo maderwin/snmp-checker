@@ -57,7 +57,7 @@ class StatSeeder extends AbstractSeed
             ];
         }
 
-        $table = $this->table('Statistick');
+        $table = $this->table('stat');
 
         $table->truncate();
 

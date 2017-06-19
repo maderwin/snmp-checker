@@ -4,6 +4,7 @@ APP_PATH=$(CURDIR)/protected
 VENDOR_PATH=vendor
 PHINX_PATH=$(VENDOR_PATH)/bin/phinx
 FRONTEND_PATH=$(APP_PATH)/frontend
+FETCH_PATH=$(APP_PATH)/fetch
 FRONTEND_BUILD_PATH=$(APP_PATH)/frontend/build
 
 COMPOSER_URL=https://getcomposer.org/composer.phar
@@ -23,13 +24,13 @@ composer-update:
 	cd $(APP_PATH); \
 	php composer.phar update --no-dev;
 
-install-prod: composer-get composer-install phinx-migrate-prod
-install-test: composer-get composer-install phinx-migrate-test
-install-dev: composer-get composer-install phinx-migrate-dev phinx-seed-dev frontend-init frontend-build
+install-prod: composer-get composer-install phinx-migrate-prod fix-exec
+install-test: composer-get composer-install phinx-migrate-test fix-exec
+install-dev: composer-get composer-install phinx-migrate-dev phinx-seed-dev frontend-init frontend-build fix-exec
 
-update-prod: composer-install phinx-migrate-test
-update-test: composer-install phinx-migrate-test phinx-seed-test
-update-dev: composer-install phinx-migrate-dev phinx-seed-dev frontend-init frontend-build
+update-prod: composer-install phinx-migrate-prod fix-exec
+update-test: composer-install phinx-migrate-test phinx-seed-test fix-exec
+update-dev: composer-install phinx-migrate-dev phinx-seed-dev frontend-init frontend-build fix-exec
 
 phinx-migrate-dev:
 	cd $(APP_PATH); \
@@ -75,3 +76,7 @@ frontend: frontend-build frontend-copy frontend-fix-static
 
 frontend-fix-static:
 	sed -i -- 's/\/static/\.\/static/g' index.html
+
+fix-exec:
+	cd $(FETCH_PATH); \
+	chmod +x isp1.sh

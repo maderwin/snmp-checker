@@ -24,7 +24,7 @@ pass="vUFemV7X4AKPSPm6"
 lh="localhost"
 
 # загружаем в БД данные, хранящиеся в вайле out
-sql1="LOAD DATA LOCAL INFILE '/var/www/wifi/protected/fetch/out' replace  INTO TABLE Statistick fields terminated by ','"
+sql1="LOAD DATA LOCAL INFILE '/var/www/wifi/protected/fetch/out' replace  INTO TABLE stat fields terminated by ','"
 
 # соединение с БД
 mysql -h "$lh" -u"$user" -p"$pass" "$db" -e "$sql1" --local-infile

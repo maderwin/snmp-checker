@@ -2,7 +2,7 @@
 
 class StatModel
 {
-    static $table = 'Statistick';
+    static $table = 'stat';
 
     public static function GetList(
         GroupFieldEnum $groupField,
@@ -13,24 +13,24 @@ class StatModel
         $strGroupField = $groupField->__toString();
 
         $table = ORM::forTable(static::$table)
-            ->select('IP', 'ip')
-            ->select('SSID', 'ssid')
+            ->select('ip', 'ip')
+            ->select('ssid', 'ssid')
+            ->select('users', 'users')
+            ->select('record_date', 'record_date')
             ->selectExpr("CONCAT(ip, ':', ssid)", 'both')
-            ->select('COUNT', 'users')
-            ->select('DATE', 'date')
-            ->orderByDesc('DATE');
+            ->orderByDesc('record_date');
 
         if($startDate){
-            $table->whereGte('DATE', $startDate->format('Y-m-d H:i:s'));
+            $table->whereGte('record_date', $startDate->format('Y-m-d H:i:s'));
             if(!$endDate){
-                $table->whereLte('DATE', $startDate->add(new DateInterval('P1W'))->format('Y-m-d H:i:s'));
+                $table->whereLte('record_date', $startDate->add(new DateInterval('P1W'))->format('Y-m-d H:i:s'));
             }
         }
 
         if($endDate){
-            $table->whereLte('DATE', $endDate->format('Y-m-d H:i:s'));
+            $table->whereLte('record_date', $endDate->format('Y-m-d H:i:s'));
             if(!$startDate){
-                $table->whereGte('DATE', $startDate->sub(new DateInterval('P1W'))->format('Y-m-d H:i:s'));
+                $table->whereGte('record_date', $startDate->sub(new DateInterval('P1W'))->format('Y-m-d H:i:s'));
             }
         }
 
@@ -42,7 +42,7 @@ class StatModel
         ];
 
         foreach ($res as $arRecord) {
-            $date = $arRecord['date'];
+            $date = $arRecord['record_date'];
             $date = DateTime::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d H:m:00');
 
             if(!isset($arResult['ip'][$date])) {
@@ -80,22 +80,22 @@ class StatModel
 
         switch($groupPeriod){
             case 'hour':
-                $table->selectExpr('extract(hour FROM date)', 'hour');
+                $table->selectExpr('extract(hour FROM record_date)', 'hour');
                 $table->groupBy('hour');
                 break;
             case 'weekday':
-                $table->selectExpr('WEEKDAY(date)', 'weekday');
+                $table->selectExpr('WEEKDAY(record_date)', 'weekday');
                 $table->groupBy('weekday');
                 break;
         }
 
         switch ($groupField){
             case 'ip':
-                $table->select('IP', 'ip');
+                $table->select('ip', 'ip');
                 $table->groupBy('ip');
                 break;
             case 'ssid':
-                $table->select('SSID', 'ssid');
+                $table->select('ssid', 'ssid');
                 $table->groupBy('ssid');
                 break;
             case 'both':
@@ -105,15 +105,15 @@ class StatModel
                 break;
         }
 
-        $table->selectExpr('avg(COUNT)', 'avg');
-        $table->selectExpr('sum(COUNT)', 'sum');
+        $table->selectExpr('avg(users)', 'avg');
+        $table->selectExpr('sum(users)', 'sum');
 
         if($startDate){
-            $table->whereGte('DATE', $startDate->format('Y-m-d H:i:s'));
+            $table->whereGte('record_date', $startDate->format('Y-m-d H:i:s'));
         }
 
         if($endDate){
-            $table->whereLte('DATE', $endDate->format('Y-m-d H:i:s'));
+            $table->whereLte('record_date', $endDate->format('Y-m-d H:i:s'));
         }
         
         $res = $table->findArray();
