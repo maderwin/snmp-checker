@@ -3,14 +3,13 @@
   "description": "description_text",
   "minimum-stability": "stable",
   "license": "proprietary",
-  "authors": [
-    {
-      "name": "maderwin",
-      "email": "az@maderwin.com"
+  "config": {
+    "platform": {
+      "php": "5.4.45"
     }
-  ],
+  },
   "require": {
-    "silex/silex": "v2.0.4",
+    "silex/silex": "v1.3.6",
     "robmorgan/phinx": "v0.8.0",
     "fzaninotto/faker": "^1.6",
     "j4mie/idiorm": "^1.5",
