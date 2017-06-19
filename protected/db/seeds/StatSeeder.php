@@ -42,10 +42,10 @@ class StatSeeder extends AbstractSeed
             $date = $faker->dateTimeThisMonth;
             $hour = $date->format('G');
             $arData[] = [
-                'IP' => $ap['ip'],
-                'DATE' => $date->format('Y-m-d H:i:s'),
-                'SSID' => $ap['ssid'],
-                'COUNT' =>
+                'record_date' => $date->format('Y-m-d H:i:s'),
+                'ip' => $ap['ip'],
+                'ssid' => $ap['ssid'],
+                'users' =>
                     ($hour >= 9 && $hour <= 18)
                     ? $faker->biasedNumberBetween(1,100, function($x) {
                         return exp(-0.5 * $x * $x) / sqrt(2 * M_PI);
