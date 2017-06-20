@@ -2,7 +2,9 @@ import { Header } from 'semantic-ui-react';
 import {
   LineChart,
   BarChart,
+  AreaChart,
   Bar,
+  Area,
   Line,
   ResponsiveContainer,
   XAxis,
@@ -80,16 +82,28 @@ export default class Chart extends React.Component {
       keys = keys.filter(key => this.props.keys.indexOf(key) > -1);
     }
 
-    return (
+    if(this.props.stacked){
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data}>
-          {keys.map(key => <Line type="monotone" key={key} dataKey={key} stroke={this.getChartColorByKey(key)}/>)}
+        <AreaChart data={data}>
+          {keys.map(key => <Area type="linear" key={key} stackId="1" dataKey={key} stroke={this.getChartColorByKey(key)} fill={this.getChartColorByKey(key)}/>)}
           <XAxis dataKey="date"/>
           <YAxis domain={[0, 'dataMax']} scale={'linear'}/>
           <CartesianGrid strokeDasharray="3 3"/>
           <Tooltip />
-        </LineChart>
+        </AreaChart>
       </ResponsiveContainer>
-    );
+    }else {
+      return (
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={data}>
+            {keys.map(key => <Line type="linear" key={key} dataKey={key} stroke={this.getChartColorByKey(key)}/>)}
+            <XAxis dataKey="date"/>
+            <YAxis domain={[0, 'dataMax']} scale={'linear'}/>
+            <CartesianGrid strokeDasharray="3 3"/>
+            <Tooltip />
+          </LineChart>
+        </ResponsiveContainer>
+      );
+    }
   }
 }

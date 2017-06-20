@@ -123,7 +123,6 @@ export default class Filter extends Component {
           <Checkbox
             slider
             label='Stacked'
-            disabled={!this.props.state.group.enabled}
             checked={this.props.state.view.stacked}
             onChange={()=>{this.onToggleStacked()}}
           />
