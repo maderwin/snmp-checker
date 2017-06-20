@@ -64,6 +64,9 @@ export default class App extends Component {
       }
     };
 
+    setInterval(()=>{
+      this.updateData(this.buildQuery());
+    }, 60 * 1000);
   }
 
   componentDidMount() {
@@ -125,54 +128,70 @@ export default class App extends Component {
   }
 
   fetchIpList(){
+    this.setState((state)=> {
+      state.view.loading++;
+      return state;
+    });
     Axios.get(rootUrl + '/api.php?api=ip')
       .then(response => {
-        this.setState({
-          iplist: response.data,
-          iplist_add: [],
-          iplist_del: []
-        });
+        this.setState((state) => {
+          state.view.loading--;
+          state.iplist = response.data;
+          return state;
+        })
       })
       .catch(() => {
-        this.setState({
-          iplist_add: [],
-          iplist_del: []
+        this.setState((state) => {
+          state.view.loading--;
+          return state;
         });
       });
   }
 
   deleteIp(ip){
-    this.setState({
-      iplist_del: this.state.iplist_del.concat([ip])
+    this.setState((state)=> {
+      state.view.loading++;
+      state.iplist_del = state.iplist_del.concat([ip]);
+      return state;
     });
     Axios.get(rootUrl + '/api.php?api=ip&action=delete&ip=' + ip)
       .then(response => {
-      this.setState({
-        iplist: response.data,
-        iplist_del: this.state.iplist_del.filter(item=>item!==ip)
-      });
+        this.setState((state)=> {
+          state.view.loading--;
+          state.iplist = response.data;
+          state.iplist_del = state.iplist_del.filter(item=>item!==ip);
+          return state;
+        });
     })
       .catch(() => {
-        this.setState({
-          iplist_del: this.state.iplist_del.filter(item=>item!==ip)
+        this.setState((state)=> {
+          state.view.loading--;
+          state.iplist_del = state.iplist_del.filter(item=>item!==ip);
+          return state;
         });
       });
   }
 
   addIp(ip){
-    this.setState({
-      iplist_add: this.state.iplist_add.concat([ip])
+    this.setState((state)=> {
+      state.view.loading++;
+      state.iplist_add = state.iplist_add.concat([ip]);
+      return state;
     });
     Axios.get(rootUrl + '/api.php?api=ip&action=add&ip=' + ip)
       .then(response => {
-        this.setState({
-          iplist: response.data,
-          iplist_add: this.state.iplist_add.filter(item=>item!==ip)
+        this.setState((state)=> {
+          state.view.loading--;
+          state.iplist = response.data;
+          state.iplist_add = state.iplist_add.filter(item=>item!==ip);
+          return state;
         });
       })
       .catch(() => {
-        this.setState({
-          iplist_add: this.state.iplist_add.filter(item=>item!==ip)
+        this.setState((state)=> {
+          state.view.loading--;
+          state.iplist_add = state.iplist_add.filter(item=>item!==ip);
+          return state;
         });
       });
   }
@@ -224,6 +243,15 @@ export default class App extends Component {
             Filter
           </Menu.Item>
           <Menu.Item
+            active={this.state.view.sidebar}
+            onClick={() => this.toggleSidebar()}>
+            <Icon
+              name='refresh'
+              loading={this.state.view.loading > 0}
+            />
+            Update
+          </Menu.Item>
+          <Menu.Item
             position="right"
             active={this.state.view.iplist}
             onClick={() => this.toggleIpList()}>
@@ -245,10 +273,7 @@ export default class App extends Component {
             onDelete={ip => this.deleteIp(ip)}
           />
 
-          <Sidebar.Pusher className="chartContainer" blurring dimmed={!!this.state.view.loading}>
-            <Dimmer active={!!this.state.view.loading} inverted>
-              <Loader>Loading</Loader>
-            </Dimmer>
+          <Sidebar.Pusher className="chartContainer">
             <Chart
               grouped={this.state.group.enabled}
               stacked={this.state.view.stacked}
