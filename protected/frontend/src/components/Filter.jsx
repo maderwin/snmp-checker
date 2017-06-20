@@ -20,6 +20,7 @@ export default class Filter extends Component {
   }
   onToggleStacked(){
     this.appState.view.stacked = !this.appState.view.stacked;
+    this.appState.view.logscale = false;
     this.props.onChange(this.appState);
   }
   onToggleSmooth(){
@@ -28,6 +29,7 @@ export default class Filter extends Component {
   }
   onToggleLogscale(){
     this.appState.view.logscale = !this.appState.view.logscale;
+    this.appState.view.stacked = false;
     this.props.onChange(this.appState);
   }
   onChangeField(data){
