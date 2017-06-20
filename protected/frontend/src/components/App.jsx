@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
-import { Dimmer, Loader, Sidebar, Segment, Menu, Icon} from 'semantic-ui-react'
+import { Label, Sidebar, Segment, Menu, Icon} from 'semantic-ui-react'
 import Swipeable from 'react-swipeable'
 import Filter from './Filter';
 import Chart from './Chart';
@@ -8,7 +8,7 @@ import IpList from './IpList';
 
 import 'semantic-ui-css/semantic.min.css';
 
-const rootUrl = '.';
+const rootUrl = 'http://stud-dev.asu.ru/wifi';
 
 export default class App extends Component {
   constructor(){
@@ -243,13 +243,15 @@ export default class App extends Component {
             Filter
           </Menu.Item>
           <Menu.Item
-            active={this.state.view.sidebar}
-            onClick={() => this.toggleSidebar()}>
+            onClick={() => this.updateData(this.buildQuery())}>
             <Icon
               name='refresh'
-              loading={this.state.view.loading > 0}
+              loading={!!this.state.view.loading}
             />
             Update
+            <Label size="small" color="blue" basic>
+              {this.state.view.loading}
+            </Label>
           </Menu.Item>
           <Menu.Item
             position="right"
