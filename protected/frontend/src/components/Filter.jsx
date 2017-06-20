@@ -22,6 +22,14 @@ export default class Filter extends Component {
     this.appState.view.stacked = !this.appState.view.stacked;
     this.props.onChange(this.appState);
   }
+  onToggleSmooth(){
+    this.appState.view.smooth = !this.appState.view.smooth;
+    this.props.onChange(this.appState);
+  }
+  onToggleLogscale(){
+    this.appState.view.logscale = !this.appState.view.logscale;
+    this.props.onChange(this.appState);
+  }
   onChangeField(data){
     this.appState.group.field.selected = data.value;
     this.props.onChange(this.appState);
@@ -127,7 +135,24 @@ export default class Filter extends Component {
             onChange={()=>{this.onToggleStacked()}}
           />
         </Menu.Item>
-
+        <Menu.Item>
+          <Checkbox
+            slider={true}
+            label='Log scale'
+            disabled={!this.props.state.group.enabled}
+            checked={this.props.state.view.logscale}
+            onChange={()=>{this.onToggleLogscale()}}
+          />
+        </Menu.Item>
+        <Menu.Item>
+          <Checkbox
+            slider={true}
+            label='Smooth'
+            disabled={this.props.state.group.enabled}
+            checked={this.props.state.view.smooth}
+            onChange={()=>{this.onToggleSmooth()}}
+          />
+        </Menu.Item>
       </Sidebar>
     );
   }

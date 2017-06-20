@@ -67,7 +67,7 @@ export default class Chart extends React.Component {
                 fill={this.getChartColorByKey(key)} />
             )}
             <XAxis dataKey={this.props.period}/>
-            <YAxis domain={[0, 'dataMax']} scale={'linear'}/>
+            <YAxis domain={[this.props.logscale ? 0.5 : 0, 'dataMax']} scale={this.props.logscale ? 'log' :'linear'}/>
             <CartesianGrid strokeDasharray="3 3"/>
             <Tooltip />
           </BarChart>
@@ -85,7 +85,7 @@ export default class Chart extends React.Component {
     if(this.props.stacked){
       return (<ResponsiveContainer width="100%" height="100%">
         <AreaChart data={data}>
-          {keys.map(key => <Area type="linear" key={key} stackId="1" dataKey={key} stroke={this.getChartColorByKey(key)} fill={this.getChartColorByKey(key)}/>)}
+          {keys.map(key => <Area type={this.props.smooth ? "monotone" : "linear"} key={key} stackId="1" dataKey={key} stroke={this.getChartColorByKey(key)} fill={this.getChartColorByKey(key)}/>)}
           <XAxis dataKey="date"/>
           <YAxis domain={[0, 'dataMax']} scale={'linear'}/>
           <CartesianGrid strokeDasharray="3 3"/>
@@ -96,7 +96,7 @@ export default class Chart extends React.Component {
       return (
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
-            {keys.map(key => <Line type="linear" key={key} dataKey={key} stroke={this.getChartColorByKey(key)}/>)}
+            {keys.map(key => <Line type={this.props.smooth ? "monotone" : "linear"} key={key} dataKey={key} stroke={this.getChartColorByKey(key)}/>)}
             <XAxis dataKey="date"/>
             <YAxis domain={[0, 'dataMax']} scale={'linear'}/>
             <CartesianGrid strokeDasharray="3 3"/>

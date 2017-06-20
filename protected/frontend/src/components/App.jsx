@@ -19,6 +19,8 @@ export default class App extends Component {
         sidebar: false,
         iplist: false,
         stacked: false,
+        smooth: false,
+        logscale: false,
         loading: 0
       },
       group: {
@@ -279,6 +281,8 @@ export default class App extends Component {
             <Chart
               grouped={this.state.group.enabled}
               stacked={this.state.view.stacked}
+              logscale={this.state.view.logscale}
+              smooth={this.state.view.smooth}
               data={this.state.data.result}
               keys={this.state.filter.keys}
               func={this.state.group.func.selected}
