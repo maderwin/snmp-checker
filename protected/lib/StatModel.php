@@ -55,11 +55,11 @@ class StatModel
             }
 
             if (!isset($arResult['ip'][$date][$arRecord['ip']])) {
-                $arResult[$strGroupField][$date][$arRecord[$strGroupField]] = [];
+                $arResult[$strGroupField][$date][$arRecord[$strGroupField]] = 0;
                 $arResult[$strGroupField][$date]['date'] = $date;
             }
 
-            $arResult[$strGroupField][$date][$arRecord[$strGroupField]][] = $arRecord['users'];
+            $arResult[$strGroupField][$date][$arRecord[$strGroupField]][] += $arRecord['users'];
 
             $arResult['keys'][$arRecord[$strGroupField]] = $arRecord[$strGroupField];
 
@@ -73,8 +73,6 @@ class StatModel
             foreach ($arResult['keys'] as $key) {
                 if (!isset($arRecord[$key])) {
                     $arRecord[$key] = 0;
-                } else {
-                    $arRecord[$key] = array_sum($arRecord[$key]);
                 }
             }
             $arResult[$strGroupField][$k] = $arRecord;
