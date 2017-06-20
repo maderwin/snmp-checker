@@ -14,12 +14,11 @@ class StatModel
 
         $table = ORM::forTable(static::$table)
             ->select('record_date', 'record_date')
-
             ->orderByAsc('record_date');
 
-        if($strGroupField == 'both'){
+        if ($strGroupField == 'both') {
             $table->selectExpr("CONCAT(ip, ':', ssid)", 'both');
-        }else{
+        } else {
             $table->select($strGroupField);
         }
         $table->groupBy($strGroupField);
@@ -27,17 +26,17 @@ class StatModel
         $table->selectExpr('SUM(users)', 'users');
 
 
-        if($startDate){
-            $table->whereGte('record_date', $startDate->format('Y-m-d H:i:s'));
-            if(!$endDate){
-                $table->whereLte('record_date', $startDate->add(new DateInterval('P1W'))->format('Y-m-d H:i:s'));
+        if ($startDate) {
+            $table->whereGte('record_date', $startDate->format('Y-m-d 00:00:00'));
+            if (!$endDate) {
+                $table->whereLte('record_date', $startDate->add(new DateInterval('P1W'))->format('Y-m-d 23:59:59'));
             }
         }
 
-        if($endDate){
-            $table->whereLte('record_date', $endDate->format('Y-m-d H:i:s'));
-            if(!$startDate){
-                $table->whereGte('record_date', $startDate->sub(new DateInterval('P1W'))->format('Y-m-d H:i:s'));
+        if ($endDate) {
+            $table->whereLte('record_date', $endDate->format('Y-m-d 23:59:59'));
+            if (!$startDate) {
+                $table->whereGte('record_date', $startDate->sub(new DateInterval('P1W'))->format('Y-m-d 00:00:00'));
             }
         }
 
@@ -52,11 +51,11 @@ class StatModel
             $date = $arRecord['record_date'];
             $date = static::roundDate($date);
 
-            if(!isset($arResult['ip'][$date])) {
+            if (!isset($arResult['ip'][$date])) {
                 $arResult[$strGroupField][$date] = [];
             }
 
-            if(!isset($arResult['ip'][$date][$arRecord['ip']])) {
+            if (!isset($arResult['ip'][$date][$arRecord['ip']])) {
                 $arResult[$strGroupField][$date][$arRecord[$strGroupField]] = [];
                 $arResult[$strGroupField][$date]['date'] = $date;
             }
@@ -68,13 +67,13 @@ class StatModel
         }
 
         $arResult[$strGroupField] = array_values($arResult[$strGroupField]);
-        $arResult['keys']= array_keys($arResult['keys']);
+        $arResult['keys'] = array_keys($arResult['keys']);
 
-        foreach($arResult[$strGroupField] as $k=> $arRecord){
-            foreach($arResult['keys'] as $key){
-                if(!isset($arRecord[$key])){
+        foreach ($arResult[$strGroupField] as $k => $arRecord) {
+            foreach ($arResult['keys'] as $key) {
+                if (!isset($arRecord[$key])) {
                     $arRecord[$key] = 0;
-                }else{
+                } else {
                     $arRecord[$key] = array_sum($arRecord[$key]);
                 }
             }
@@ -95,7 +94,7 @@ class StatModel
 
         $table = ORM::forTable(static::$table);
 
-        switch($groupPeriod){
+        switch ($groupPeriod) {
             case 'hour':
                 $table->selectExpr('extract(hour FROM record_date)', 'hour');
                 $table->groupBy('hour');
@@ -106,7 +105,7 @@ class StatModel
                 break;
         }
 
-        switch ($groupField){
+        switch ($groupField) {
             case 'ip':
                 $table->select('ip', 'ip');
                 $table->groupBy('ip');
@@ -125,14 +124,20 @@ class StatModel
         $table->selectExpr('avg(users)', 'avg');
         $table->selectExpr('sum(users)', 'sum');
 
-        if($startDate){
-            $table->whereGte('record_date', $startDate->format('Y-m-d H:i:s'));
+        if ($startDate) {
+            $table->whereGte('record_date', $startDate->format('Y-m-d 00:00:00'));
+            if (!$endDate) {
+                $table->whereLte('record_date', $startDate->add(new DateInterval('P1W'))->format('Y-m-d 23:59:59'));
+            }
         }
 
-        if($endDate){
-            $table->whereLte('record_date', $endDate->format('Y-m-d H:i:s'));
+        if ($endDate) {
+            $table->whereLte('record_date', $endDate->format('Y-m-d 23:59:59'));
+            if (!$startDate) {
+                $table->whereGte('record_date', $startDate->sub(new DateInterval('P1W'))->format('Y-m-d 00:00:00'));
+            }
         }
-        
+
         $res = $table->findArray();
 
         $arResult = [
@@ -143,19 +148,19 @@ class StatModel
 
         foreach ($res as $arRecord) {
             $groupPeriodValue = $arRecord[$strGroupPeriod];
-            if($strGroupPeriod == 'hour'){
+            if ($strGroupPeriod == 'hour') {
                 $groupPeriodValue .= ':00';
             }
-            if($strGroupPeriod == 'weekday'){
+            if ($strGroupPeriod == 'weekday') {
                 $arWeekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
                 $groupPeriodValue = $arWeekdays[$groupPeriodValue];
             }
-            if(!isset($arResult['sum'][$groupPeriodValue])){
+            if (!isset($arResult['sum'][$groupPeriodValue])) {
                 $arResult['sum'][$groupPeriodValue] = [
                     $strGroupPeriod => $groupPeriodValue
                 ];
             }
-            if(!isset($arResult['avg'][$groupPeriodValue])){
+            if (!isset($arResult['avg'][$groupPeriodValue])) {
                 $arResult['avg'][$groupPeriodValue] = [
                     $strGroupPeriod => $groupPeriodValue
                 ];
@@ -173,7 +178,9 @@ class StatModel
         return $arResult;
     }
 
-    protected static function roundDate($t){
+    protected
+    static function roundDate($t)
+    {
         $precision = 15 * 60;
         $date = \DateTime::createFromFormat('Y-m-d H:i:s', $t, new \DateTimezone('UTC'));
         $date2 = \DateTime::createFromFormat('U', round($date->getTimestamp() / $precision) * $precision, new \DateTimezone('UTC'));
