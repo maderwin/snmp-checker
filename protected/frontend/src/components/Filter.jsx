@@ -30,6 +30,12 @@ export default class Filter extends Component {
   onToggleLogscale(){
     this.appState.view.logscale = !this.appState.view.logscale;
     this.appState.view.stacked = false;
+    this.appState.view.normalize = false;
+    this.props.onChange(this.appState);
+  }
+  onToggleNormalize(){
+    this.appState.view.normalize = !this.appState.view.normalize;
+    this.appState.view.logscale = false;
     this.props.onChange(this.appState);
   }
   onChangeField(data){
@@ -38,7 +44,7 @@ export default class Filter extends Component {
   }
   onChangePeriod(data){
     this.appState.group.period.selected = data.value;
-    this.appState.group.enabled = !!data.value;
+    this.appState.group.enabled = !!data.value && data.value !== 'latest';
     this.props.onChange(this.appState);
   }
   onChangeFunc(data){
@@ -153,6 +159,15 @@ export default class Filter extends Component {
             disabled={this.props.state.group.enabled}
             checked={this.props.state.view.smooth}
             onChange={()=>{this.onToggleSmooth()}}
+          />
+        </Menu.Item>
+        <Menu.Item>
+          <Checkbox
+            slider={true}
+            label='Normalize'
+            disabled={!this.props.state.view.stacked}
+            checked={this.props.state.view.normalize}
+            onChange={()=>{this.onToggleNormalize()}}
           />
         </Menu.Item>
       </Sidebar>

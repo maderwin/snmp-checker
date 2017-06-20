@@ -39,31 +39,6 @@ export default class IpList extends Component {
         visible={this.props.visible}
         vertical
       >
-        {
-          this.props.iplist
-            .map(ip => {
-              if(this.props.iplist_del.indexOf(ip) > -1) {
-                return (<Menu.Item>
-                  <Icon name='spinner' color="gray" loading={true}/>
-                  {ip}
-                </Menu.Item>);
-              }else{
-                return (<Menu.Item>
-                  <Icon name='close' color="red" link={true} onClick={()=>this.deleteIp(ip)}/>
-                  {ip}
-                </Menu.Item>);
-              }
-            })
-        }
-        {
-          this.props.iplist_add
-            .map(ip => {
-              return (<Menu.Item>
-                <Icon name='spinner' color="gray" loading={true}/>
-                {ip}
-              </Menu.Item>);
-            })
-        }
         <Menu.Item>
           <Input
             placeholder='xxx.xxx.xxx.xxx'
@@ -80,6 +55,31 @@ export default class IpList extends Component {
             }
           />
         </Menu.Item>
+        {
+          this.props.iplist_add
+            .map(ip => {
+              return (<Menu.Item key={ip}>
+                <Icon name='spinner' color="gray" loading={true}/>
+                {ip}
+              </Menu.Item>);
+            })
+        }
+        {
+          this.props.iplist
+            .map(ip => {
+              if(this.props.iplist_del.indexOf(ip) > -1) {
+                return (<Menu.Item key={ip}>
+                  <Icon name='spinner' color="gray" loading={true}/>
+                  {ip}
+                </Menu.Item>);
+              }else{
+                return (<Menu.Item key={ip}>
+                  <Icon name='close' color="red" link={true} onClick={()=>this.deleteIp(ip)}/>
+                  {ip}
+                </Menu.Item>);
+              }
+            })
+        }
 
       </Sidebar>
     );

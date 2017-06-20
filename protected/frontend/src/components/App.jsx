@@ -5,6 +5,7 @@ import Swipeable from 'react-swipeable'
 import Filter from './Filter';
 import Chart from './Chart';
 import IpList from './IpList';
+import moment from 'moment';
 
 import 'semantic-ui-css/semantic.min.css';
 
@@ -20,11 +21,12 @@ export default class App extends Component {
         iplist: false,
         stacked: false,
         smooth: false,
+        normalize: false,
         logscale: false,
         loading: 0
       },
       group: {
-        enabled: true,
+        enabled: false,
         field: {
           selected: 'both',
           options: [
@@ -34,9 +36,9 @@ export default class App extends Component {
           ]
         },
         period: {
-          selected: 'hour',
+          selected: 'latest',
           options: [
-            {key: false, value: false, text:"Do not group"},
+            {key: 'latest', value: 'latest', text:"Do not group"},
             {key: 'hour', value: "hour", text:"Group by hour"},
             {key: 'weekday', value: "weekday", text:"Group by weekday"}
           ]
@@ -50,8 +52,8 @@ export default class App extends Component {
         },
       },
       filter: {
-        start: null,
-        end: null,
+        start: moment(),
+        end: moment(),
         keys: [],
       },
       iplist: [],
@@ -68,7 +70,7 @@ export default class App extends Component {
 
     setInterval(()=>{
       this.updateData(this.buildQuery());
-    }, 60 * 1000);
+    }, 5 * 60 * 5000);
   }
 
   componentDidMount() {
@@ -282,6 +284,7 @@ export default class App extends Component {
               grouped={this.state.group.enabled}
               stacked={this.state.view.stacked}
               logscale={this.state.view.logscale}
+              normalize={this.state.view.normalize}
               smooth={this.state.view.smooth}
               data={this.state.data.result}
               keys={this.state.filter.keys}

@@ -56,6 +56,18 @@ export default class Chart extends React.Component {
         keys = keys.filter(key => this.props.keys.indexOf(key) > -1);
       }
 
+      if(data && this.props.stacked && this.props.normalize){
+        data = data.map(record => {
+          let item = {};
+          item[this.props.period] = record[this.props.period];
+          let sum = keys.reduce((sum, key) => {
+            return sum + (!!record[key] ? record[key] : 0) ;
+          }, 0);
+          keys.forEach(key => item[key] = 100 * (!!record[key] ? record[key] : 0) / sum);
+          return item;
+        });
+      }
+
       return data && keys && data.length && keys.length ? (
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} barGap={0} barCategoryGap={1}>
@@ -80,6 +92,18 @@ export default class Chart extends React.Component {
 
     if(this.props.keys.length){
       keys = keys.filter(key => this.props.keys.indexOf(key) > -1);
+    }
+
+    if(data && this.props.stacked && this.props.normalize){
+      data = data.map(record => {
+        let item = {};
+        item['date'] = record['date'];
+        let sum = keys.reduce((sum, key) => {
+          return sum + (!!record[key] ? record[key] : 0) ;
+        }, 0);
+        keys.forEach(key => item[key] = 100 * (!!record[key] ? record[key] : 0) / sum);
+        return item;
+      });
     }
 
     if(this.props.stacked){
