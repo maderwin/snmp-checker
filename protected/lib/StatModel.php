@@ -25,7 +25,6 @@ class StatModel
         $table->groupBy('record_date');
         $table->selectExpr('SUM(users)', 'users');
 
-
         if ($startDate) {
             $table->whereGte('record_date', $startDate->format('Y-m-d 00:00:00'));
             if (!$endDate) {
@@ -68,6 +67,7 @@ class StatModel
 
         $arResult[$strGroupField] = array_values($arResult[$strGroupField]);
         $arResult['keys'] = array_keys($arResult['keys']);
+        $arResult['query'] = ORM::getLastQuery();
 
         foreach ($arResult[$strGroupField] as $k => $arRecord) {
             foreach ($arResult['keys'] as $key) {
@@ -174,6 +174,7 @@ class StatModel
         $arResult['avg'] = array_values($arResult['avg']);
         $arResult['sum'] = array_values($arResult['sum']);
         $arResult['keys'] = array_keys($arResult['keys']);
+        $arResult['query'] = ORM::getLastQuery();
 
         return $arResult;
     }
