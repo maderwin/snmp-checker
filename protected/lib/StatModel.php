@@ -50,16 +50,16 @@ class StatModel
             $date = $arRecord['record_date'];
             $date = static::roundDate($date);
 
-            if (!isset($arResult['ip'][$date])) {
+            if (!isset($arResult[$strGroupField][$date])) {
                 $arResult[$strGroupField][$date] = [];
             }
 
-            if (!isset($arResult['ip'][$date][$arRecord['ip']])) {
-                $arResult[$strGroupField][$date][$arRecord[$strGroupField]] = 0;
+            if (!isset($arResult[$strGroupField][$date][$arRecord[$strGroupField]])) {
+                $arResult[$strGroupField][$date][$arRecord[$strGroupField]] = [];
                 $arResult[$strGroupField][$date]['date'] = $date;
             }
 
-            $arResult[$strGroupField][$date][$arRecord[$strGroupField]][] += $arRecord['users'];
+            $arResult[$strGroupField][$date][$arRecord[$strGroupField]][] = $arRecord['users'];
 
             $arResult['keys'][$arRecord[$strGroupField]] = $arRecord[$strGroupField];
 
@@ -73,6 +73,8 @@ class StatModel
             foreach ($arResult['keys'] as $key) {
                 if (!isset($arRecord[$key])) {
                     $arRecord[$key] = 0;
+                }else{
+                    $arRecord[$key] = array_sum($arRecord[$key]);
                 }
             }
             $arResult[$strGroupField][$k] = $arRecord;
