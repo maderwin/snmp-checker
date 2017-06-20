@@ -13,12 +13,19 @@ class StatModel
         $strGroupField = $groupField->__toString();
 
         $table = ORM::forTable(static::$table)
-            ->select('ip', 'ip')
-            ->select('ssid', 'ssid')
-            ->select('users', 'users')
             ->select('record_date', 'record_date')
-            ->selectExpr("CONCAT(ip, ':', ssid)", 'both')
+
             ->orderByAsc('record_date');
+
+        if($strGroupField == 'both'){
+            $table->selectExpr("CONCAT(ip, ':', ssid)", 'both');
+        }else{
+            $table->select($strGroupField);
+        }
+        $table->groupBy($strGroupField);
+        $table->groupBy('record_date');
+        $table->selectExpr('SUM(users)', 'users');
+
 
         if($startDate){
             $table->whereGte('record_date', $startDate->format('Y-m-d H:i:s'));
