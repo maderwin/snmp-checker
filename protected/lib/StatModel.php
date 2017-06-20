@@ -181,7 +181,7 @@ class StatModel
     protected
     static function roundDate($t)
     {
-        $precision = 15 * 60;
+        $precision = 5 * 60;
         $date = \DateTime::createFromFormat('Y-m-d H:i:s', $t, new \DateTimezone('UTC'));
         $date2 = \DateTime::createFromFormat('U', round($date->getTimestamp() / $precision) * $precision, new \DateTimezone('UTC'));
 
