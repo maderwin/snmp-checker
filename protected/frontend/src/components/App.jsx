@@ -133,7 +133,7 @@ export default class App extends Component {
           iplist_del: []
         });
       })
-      .catch(error => {
+      .catch(() => {
         this.setState({
           iplist_add: [],
           iplist_del: []
@@ -152,7 +152,7 @@ export default class App extends Component {
         iplist_del: this.state.iplist_del.filter(item=>item!==ip)
       });
     })
-      .catch(error => {
+      .catch(() => {
         this.setState({
           iplist_del: this.state.iplist_del.filter(item=>item!==ip)
         });
@@ -170,7 +170,7 @@ export default class App extends Component {
           iplist_add: this.state.iplist_add.filter(item=>item!==ip)
         });
       })
-      .catch(error => {
+      .catch(() => {
         this.setState({
           iplist_add: this.state.iplist_add.filter(item=>item!==ip)
         });

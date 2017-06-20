@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Sidebar, Menu, Icon, Input, Dropdown, Checkbox} from 'semantic-ui-react'
+import { Sidebar, Menu, Icon, Input, Dropdown, Checkbox} from 'semantic-ui-react';
 import DatePicker from './DatePicker';
 import moment from 'moment';
 
@@ -76,8 +76,8 @@ export default class Filter extends Component {
         <Menu.Item>
           <Dropdown
             placeholder='Filter by key'
-            search
-            selection
+            search={true}
+            selection={true}
             fluid
             multiple
             options={!!this.props.state.data.result.keys ? this.props.state.data.result.keys.map(key => {return {
@@ -91,7 +91,7 @@ export default class Filter extends Component {
         <Menu.Item>
           <Dropdown
             placeholder='Group by field'
-            selection
+            selection={true}
             value={this.props.state.group.field.selected}
             options={this.props.state.group.field.options}
             onChange={(e, data)=>{this.onChangeField(data)}}
@@ -101,7 +101,7 @@ export default class Filter extends Component {
         <Menu.Item>
           <Dropdown
             placeholder='Group by period'
-            selection
+            selection={true}
             value={this.props.state.group.period.selected}
             options={this.props.state.group.period.options}
             onChange={(e, data)=>{this.onChangePeriod(data)}}
@@ -110,8 +110,8 @@ export default class Filter extends Component {
         </Menu.Item>
         <Menu.Item>
           <Dropdown
-            placeholder='Agregate method'
-            selection
+            placeholder='Aggregate method'
+            selection={true}
             disabled={!this.props.state.group.enabled}
             value={this.props.state.group.func.selected}
             options={this.props.state.group.func.options}
@@ -121,7 +121,7 @@ export default class Filter extends Component {
         </Menu.Item>
         <Menu.Item>
           <Checkbox
-            slider
+            slider={true}
             label='Stacked'
             checked={this.props.state.view.stacked}
             onChange={()=>{this.onToggleStacked()}}

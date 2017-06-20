@@ -83,7 +83,7 @@ export default class Chart extends React.Component {
     }
 
     if(this.props.stacked){
-      <ResponsiveContainer width="100%" height="100%">
+      return (<ResponsiveContainer width="100%" height="100%">
         <AreaChart data={data}>
           {keys.map(key => <Area type="linear" key={key} stackId="1" dataKey={key} stroke={this.getChartColorByKey(key)} fill={this.getChartColorByKey(key)}/>)}
           <XAxis dataKey="date"/>
@@ -91,7 +91,7 @@ export default class Chart extends React.Component {
           <CartesianGrid strokeDasharray="3 3"/>
           <Tooltip />
         </AreaChart>
-      </ResponsiveContainer>
+      </ResponsiveContainer>);
     }else {
       return (
         <ResponsiveContainer width="100%" height="100%">
